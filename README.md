@@ -18,6 +18,6 @@ L'objectif est de déterminer combien il y a de pommes et de pains dans chaque e
 #### Merci d'avoir joué à Pomme2Pain !
 @hec.torjunior
 
-{\__/} 
-( ●.●) 
-/> *Iris Alpaca Meretur Gloriam Aeternam* 
+`{\__/}`  
+`( ●.●)`  
+`/> *Iris Alpaca Meretur Gloriam Aeternam*` 
