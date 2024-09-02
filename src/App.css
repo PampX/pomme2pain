@@ -1,10 +1,18 @@
 .App {
   text-align: center;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .listCard{
   display: flex;
+  width: 100%;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 html{
