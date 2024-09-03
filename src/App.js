@@ -5,12 +5,17 @@ import { useState } from 'react';
 
 function randomCard() {
   let card = [];
-  let randomNumber = Math.floor(Math.random() * 3) + 1;
+  let randomType = Math.floor(Math.random() * 10);
+  
+  if (randomType < 8) {
+    let randomNumber = Math.floor(Math.random() * 3) + 1;
 
-  for (let i = 0; i < randomNumber; i++) {
-    card[i] = Math.floor(Math.random() * 3);
+    for (let i = 0; i < randomNumber; i++) {
+      card[i] = Math.floor(Math.random() * 3);
+    }
+  } else {
+    card[0] = 3;
   }
-
   return card;
 }
 
@@ -21,31 +26,41 @@ export default function App() {
     { id: 2, value: [] },
     { id: 3, value: [] },
   ]);
-  const [currentIndex, setCurrentIndex] = useState(0); // Pour suivre l'index de la carte à régénérer
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [counter, setCounter] = useState(0); 
   
   const regenerateCard = () => {
     const interval = setInterval(() => {
-      setItems((prevItems) =>
-        prevItems.map((item, index) =>
-          index === currentIndex ? { ...item, value: randomCard() } : item
-        )
-      );
-    }, 100); 
+      setItems((prevItems) => {
+        return prevItems.map((item, index) => {
+          
+          if (index === currentIndex) {
+            let newCardValue = randomCard();
+            return { ...item, value: newCardValue };
+          } else {
+            
+            return item;
+          }
+        });
+      });
+    }, 100);
 
     setTimeout(() => {
-      clearInterval(interval);
-      setCounter(counter + 1);
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-    }, 1000); 
+      clearInterval(interval); 
+      setCounter((prevCounter) => prevCounter + 1);
+      setCurrentIndex((prevIndex) => {
+        let newIndex = (prevIndex + 1) % 3;
+        return newIndex;
+      });
+    }, 1000);
   };
 
   const clearAllCards = () => {
     setItems((prevItems) =>
       prevItems.map((item) => ({ ...item, value: [] }))
     );
-    setCounter(0);
-    setCurrentIndex(0);
+    setCounter(0); 
+    setCurrentIndex(0); 
   };
 
   return (
@@ -58,7 +73,7 @@ export default function App() {
           </div>
         ))}
       </div>
-      <h2>Regenerate Count: {counter}</h2>
+      <h2 className='counter'>Points : {counter}</h2>
       <button className='bouton' onClick={regenerateCard}>Regenerate</button>
       <button className='bouton-clear' onClick={clearAllCards}>Clear All</button>
     </div>
