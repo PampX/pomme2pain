@@ -21,19 +21,22 @@ export default function App() {
     { id: 2, value: [] },
     { id: 3, value: [] },
   ]);
+  const [currentIndex, setCurrentIndex] = useState(0); // Pour suivre l'index de la carte à régénérer
   const [counter, setCounter] = useState(0); 
-  const regenerateCard = (id) => {
+  
+  const regenerateCard = () => {
     const interval = setInterval(() => {
       setItems((prevItems) =>
-        prevItems.map((item) =>
-          item.id === id ? { ...item, value: randomCard() } : item
+        prevItems.map((item, index) =>
+          index === currentIndex ? { ...item, value: randomCard() } : item
         )
       );
     }, 100); 
 
     setTimeout(() => {
       clearInterval(interval);
-      setCounter(counter + 1); 
+      setCounter(counter + 1);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
     }, 1000); 
   };
 
@@ -42,6 +45,7 @@ export default function App() {
       prevItems.map((item) => ({ ...item, value: [] }))
     );
     setCounter(0);
+    setCurrentIndex(0);
   };
 
   return (
@@ -51,11 +55,11 @@ export default function App() {
         {items.map((item) => (
           <div key={item.id}>
             <Card values={item.value} />
-            <button className='bouton' onClick={() => regenerateCard(item.id)}>Regenerate</button>
           </div>
         ))}
       </div>
       <h2>Regenerate Count: {counter}</h2>
+      <button className='bouton' onClick={regenerateCard}>Regenerate</button>
       <button className='bouton-clear' onClick={clearAllCards}>Clear All</button>
     </div>
   );
